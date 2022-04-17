@@ -1,5 +1,7 @@
 # pagerank_worldcup
-Applying PageRank to predict champion team for FIFA World Cup
+Applying PageRank to predict champion team for FIFA World Cup.
+
+A short video (mp4 file) for demo.
 
 # How to run
 Command:
