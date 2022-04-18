@@ -30,8 +30,7 @@ def page_rank_cvx(teleport_prob, P, v, teams):
     return results
 
 def update(teleport_prob, P, v, pre_pi):
-    part1 = P @ pre_pi
-    updated_pi = (1 - teleport_prob) * part1 + teleport_prob * v
+    updated_pi = (1 - teleport_prob) * P @ pre_pi + teleport_prob * v
     return updated_pi
 
 def iteration_method(teleport_prob, P, v, initial_pi, max_itrs, teams):
@@ -129,6 +128,7 @@ def create_stochastic_matrix(graphs):
     sto_matrixs = []
     teams_by_group = []
     for graph in graphs:
+        # Get team info from networkx graph
         weights = dict(nx.get_edge_attributes(graph, 'weight'))
 
         teams = list(graph.nodes())
@@ -136,13 +136,15 @@ def create_stochastic_matrix(graphs):
         out_degree_dic = {}
         for team in teams:
             out_degree_dic[team] =  0
-
+        
+        # Get outlinks for each code
         for key in weights:
             if key[0] in teams:
                 out_degree_dic[key[0]] = out_degree_dic[key[0]] + weights[key]
         
         N = len(teams)
         substo_mat = np.empty(shape=(N,0), order='c')
+        # create matrix P
         for i in range(N):
             team = teams[i]
             outlinks = []
