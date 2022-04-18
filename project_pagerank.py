@@ -171,8 +171,22 @@ def create_stochastic_matrix(graphs):
         e = np.array([1] * N).reshape(N, 1)
         c = e.T - e.T @ substo_mat
         u = e / N
+        sto_matrix = substo_mat + u*c
 
-        sto_matrixs.append(substo_mat + u*c)
+        # handle the case when the matrix is identify matrix
+        if np.all((sto_matrix == 0) | (sto_matrix == 1)):
+            for i in range(N):
+                for j in range(N):
+                    team = teams[i]
+                    out_degree_dic[team]
+                 
+                    if i == j:
+                        sto_matrix[j][i] = 1 / (out_degree_dic[team] + 1)
+                    elif sto_matrix[j][i] == 1:
+                        assert((team, teams[j]) in weights)
+                        sto_matrix[j][i] = out_degree_dic[team] / (out_degree_dic[team] + 1)
+
+        sto_matrixs.append(sto_matrix)
 
     return sto_matrixs, teams_by_group
 
